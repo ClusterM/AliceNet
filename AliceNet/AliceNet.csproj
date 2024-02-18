@@ -1,0 +1,59 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>$(MSBuildProjectName)</AssemblyName>
+    <RootNamespace>wtf.cluster.AliceNet</RootNamespace>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>Alice.NET</Title>
+    <Authors>Alexey Cluster</Authors>
+    <Company>Alexey Cluster</Company>
+    <Product>Alice.NET</Product>
+    <Description>.NET библиотека для лёгкого и быстрого создания навыков для Алисы от Яндекса. Она уже содержит простенький веб-сервер.</Description>
+    <Copyright>Alexey Cluster, 2024</Copyright>
+    <PackageProjectUrl>https://github.com/ClusterM/AliceNet</PackageProjectUrl>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/ClusterM/AliceNet</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>yandex;яндекс;alice;алиса;яндекс станция;навык</PackageTags>
+    <AnalysisLevel>none</AnalysisLevel>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <NeutralLanguage>ru</NeutralLanguage>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugType>embedded</DebugType>
+    <IsTrimmable>True</IsTrimmable>
+    <WarningLevel>9999</WarningLevel>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>embedded</DebugType>
+    <IsTrimmable>True</IsTrimmable>
+    <WarningLevel>9999</WarningLevel>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="icon.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>
