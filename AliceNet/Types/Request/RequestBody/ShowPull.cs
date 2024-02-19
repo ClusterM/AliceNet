@@ -10,6 +10,7 @@ namespace wtf.cluster.AliceNet.Types.Request.RequestBody
         /// <summary>
         /// Тип запроса.
         /// </summary>
+        [JsonPropertyName("type")]
         public IRequestBody.RequestTypes RequestType => IRequestBody.RequestTypes.ShowPull;
 
         /// <summary>

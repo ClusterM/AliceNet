@@ -12,7 +12,7 @@ namespace wtf.cluster.AliceNet.Types
         /// Тело ответа.
         /// </summary>
         [JsonPropertyName("response")]
-        public required AliceResponseBody Response { get; set; }
+        public required ResponseBody Response { get; set; }
 
         /// <summary>
         /// Объект, содержащий состояние навыка для хранения в контексте сессии.

@@ -32,13 +32,13 @@ namespace wtf.cluster.AliceNet.Types.Request
         /// На практике могут быть доступны следующие интерфейсы, которых нет в документации.
         /// </summary>
         [JsonPropertyName("interfaces")]
-        public Dictionary<string, JsonElement> Interfaces { get; }
+        public Dictionary<string, JsonElement?> Interfaces { get; }
 
         /// <summary>
         /// Конструктор для десериализации из JSON.
         /// </summary>
         [JsonConstructor]
-        public Meta(string locale, string timezone, string clientId, Dictionary<string, JsonElement> interfaces)
+        public Meta(string locale, string timezone, string clientId, Dictionary<string, JsonElement?> interfaces)
         {
             Locale = locale;
             Timezone = timezone;

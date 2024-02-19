@@ -16,7 +16,7 @@ namespace wtf.cluster.AliceNet.Types.Request.RequestBody
         /// <summary>
         /// Тип запроса.
         /// </summary>
-        [JsonIgnore]
+        [JsonPropertyName("type")]
         public IRequestBody.RequestTypes RequestType => IRequestBody.RequestTypes.SimpleUtterance;
 
         /// <summary>
@@ -52,13 +52,13 @@ namespace wtf.cluster.AliceNet.Types.Request.RequestBody
         /// Дополнительные данные, которые Диалоги получили от навыка вместе с запросом пользователя (нажатие кнопки, ввод текста и т. п.).
         /// </summary>
         [JsonPropertyName("payload")]
-        public JsonElement Payload { get; }
+        public JsonElement? Payload { get; }
 
         /// <summary>
         /// Конструктор для десериализации из JSON.
         /// </summary>
         [JsonConstructor]
-        public SimpleUtterance(string command, string originalUtterance, Markup? markup, Nlu nlu, JsonElement payload)
+        public SimpleUtterance(string command, string originalUtterance, Markup? markup, Nlu nlu, JsonElement? payload)
         {
             Command = command;
             OriginalUtterance = originalUtterance;

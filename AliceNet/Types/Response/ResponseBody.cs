@@ -6,7 +6,7 @@ namespace wtf.cluster.AliceNet.Types.Response
     /// <summary>
     /// Тело ответа, который навык возвращает Алисе.
     /// </summary>
-    public class AliceResponseBody
+    public class ResponseBody
     {
         /// <summary>
         /// Текст, который следует показать и озвучить пользователю.
@@ -59,7 +59,7 @@ namespace wtf.cluster.AliceNet.Types.Response
         /// <summary>
         /// Создает новый объект класса AliceResponse.
         /// </summary>
-        public AliceResponseBody()
+        public ResponseBody()
         {
         }
 
@@ -67,7 +67,7 @@ namespace wtf.cluster.AliceNet.Types.Response
         /// Создает новый объект класса AliceResponse.
         /// </summary>
         /// <param name="response">Ответ на запрос.</param>
-        public AliceResponseBody(string response)
+        public ResponseBody(string response)
         {
             Text = response;
         }

@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace wtf.cluster.AliceNet.Types.Request
 {
@@ -17,13 +18,13 @@ namespace wtf.cluster.AliceNet.Types.Request
         /// Значение.
         /// </summary>
         [JsonPropertyName("value")]
-        public object Value { get; }
+        public JsonElement? Value { get; }
 
         /// <summary>
         /// Конструктор для десериализации из JSON.
         /// </summary>
         [JsonConstructor]
-        public Slot(string type, object value)
+        public Slot(string type, JsonElement? value)
         {
             Type = type;
             Value = value;

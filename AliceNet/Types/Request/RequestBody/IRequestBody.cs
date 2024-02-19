@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.ComponentModel.Design;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace wtf.cluster.AliceNet.Types.Request.RequestBody
@@ -12,6 +13,7 @@ namespace wtf.cluster.AliceNet.Types.Request.RequestBody
         /// <summary>
         /// Тип запроса.
         /// </summary>
+        [JsonConverter(typeof(RequestTypeConverter))]
         public enum RequestTypes
         {
             /// <summary>
@@ -132,6 +134,39 @@ namespace wtf.cluster.AliceNet.Types.Request.RequestBody
                     default:
                         throw new JsonException($"Can't serialize {value.GetType()} object, unknown type");
                 }
+            }
+        }
+
+        /// <summary>
+        /// JSON converter for serialization and deserialization.
+        /// </summary>
+        public class RequestTypeConverter : JsonConverter<RequestTypes>
+        {
+            /// <summary>
+            /// RequestTypes objects deserializer.
+            /// </summary>
+            public override RequestTypes Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+            {
+                using JsonDocument document = JsonDocument.ParseValue(ref reader);
+                JsonElement root = document.RootElement;
+                var t = root.GetString();
+                if (t == null)
+                    throw new JsonException("Can't deserialize RequestTypes object, type is null");
+                if (t == "Show.Pull")
+                    return RequestTypes.ShowPull;
+                else
+                    return Enum.Parse<RequestTypes>(t);
+            }
+
+            /// <summary>
+            /// RequestTypes objects serializer.
+            /// </summary>
+            public override void Write(Utf8JsonWriter writer, RequestTypes value, JsonSerializerOptions options)
+            {
+                if (value == RequestTypes.ShowPull)
+                    writer.WriteStringValue("Show.Pull");
+                else
+                    writer.WriteStringValue(value.ToString());
             }
         }
     }

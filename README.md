@@ -33,7 +33,7 @@ namespace AliceExample
             return Task.FromResult(
                 new AliceResponse
                 {
-                    Response = new AliceResponseBody
+                    Response = new ResponseBody
                     {
                         Text = "Привет, это Алиса!",
                         Buttons = [

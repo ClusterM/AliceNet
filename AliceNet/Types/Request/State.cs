@@ -12,7 +12,7 @@ namespace wtf.cluster.AliceNet.Types.Request
         /// Состояние навыка в контексте сессии.
         /// </summary>
         [JsonPropertyName("session")]
-        public JsonElement Session { get; }
+        public JsonElement? Session { get; }
 
         /// <summary>
         /// Состояние навыка в контексте авторизованного пользователя.
@@ -30,7 +30,7 @@ namespace wtf.cluster.AliceNet.Types.Request
         /// Конструктор для десериализации из JSON.
         /// </summary>
         [JsonConstructor]
-        public State(JsonElement session, JsonElement? user, JsonElement application)
+        public State(JsonElement? session, JsonElement? user, JsonElement application)
         {
             Session = session;
             User = user;

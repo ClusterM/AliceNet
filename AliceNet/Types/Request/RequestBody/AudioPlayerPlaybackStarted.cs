@@ -10,7 +10,7 @@ namespace wtf.cluster.AliceNet.Types.Request.RequestBody
         /// <summary>
         /// Тип запроса.
         /// </summary>
-        [JsonIgnore]
+        [JsonPropertyName("type")]
         public IRequestBody.RequestTypes RequestType { get => IRequestBody.RequestTypes.AudioPlayerPlaybackStarted; }
 
         /// <summary>

@@ -111,6 +111,7 @@ namespace wtf.cluster.AliceNet
             }
         }
 
+        // TODO: pass HTTP headers to HandleRequest?
         private async Task HandleRequest(HttpListenerContext context)
         {
             // TODO: some logging?
@@ -145,7 +146,7 @@ namespace wtf.cluster.AliceNet
                 {
                     responseBody = JsonSerializer.Serialize(new AliceResponse
                     {
-                        Response = new AliceResponseBody
+                        Response = new ResponseBody
                         {
                             Text = "pong",
                             Tts = "pong",

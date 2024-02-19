@@ -1,5 +1,6 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
+using static wtf.cluster.AliceNet.Types.Request.RequestBody.IRequestBody;
 
 namespace wtf.cluster.AliceNet.Types.Request.Entities
 {
@@ -12,6 +13,7 @@ namespace wtf.cluster.AliceNet.Types.Request.Entities
         /// <summary>
         /// Тип именованной сущности.
         /// </summary>
+        [JsonConverter(typeof(RequestTypeConverter))]
         public enum EntityTypes
         {
             /// <summary>
@@ -35,7 +37,7 @@ namespace wtf.cluster.AliceNet.Types.Request.Entities
         /// <summary>
         /// Тип именованной сущности.
         /// </summary>
-        [JsonIgnore]
+        [JsonPropertyName("type")]
         public EntityTypes EntityType { get; }
 
         /// <summary>
@@ -90,6 +92,61 @@ namespace wtf.cluster.AliceNet.Types.Request.Entities
                         break;
                     case NumberEntity numberEntity:
                         JsonSerializer.Serialize(writer, numberEntity, options);
+                        break;
+                    default:
+                        throw new JsonException($"Can't serialize {value.GetType()} object, unknown type");
+                }
+            }
+        }
+
+        /// <summary>
+        /// JSON converter for serialization and deserialization.
+        /// </summary>
+        public class RequestTypeConverter : JsonConverter<EntityTypes>
+        {
+            /// <summary>
+            /// RequestTypes objects deserializer.
+            /// </summary>
+            public override EntityTypes Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+            {
+                using JsonDocument document = JsonDocument.ParseValue(ref reader);
+                JsonElement root = document.RootElement;
+                var t = root.GetString();
+                if (t == null)
+                    throw new JsonException("Can't deserialize EntityTypes object, type is null");
+                switch (t)
+                {
+                    case "YANDEX.DATETIME":
+                        return EntityTypes.DateTime;
+                    case "YANDEX.FIO":
+                        return EntityTypes.FIO;
+                    case "YANDEX.GEO":
+                        return EntityTypes.GEO;
+                    case "YANDEX.NUMBER":
+                        return EntityTypes.Number;
+                    default:
+                        throw new JsonException($"Can't deserialize {typeToConvert} object, unknown type: {t}");
+                }
+            }
+
+            /// <summary>
+            /// RequestTypes objects serializer.
+            /// </summary>
+            public override void Write(Utf8JsonWriter writer, EntityTypes value, JsonSerializerOptions options)
+            {
+                switch (value)
+                {
+                    case EntityTypes.DateTime:
+                        writer.WriteStringValue("YANDEX.DATETIME");
+                        break;
+                    case EntityTypes.FIO:
+                        writer.WriteStringValue("YANDEX.FIO");
+                        break;
+                    case EntityTypes.GEO:
+                        writer.WriteStringValue("YANDEX.GEO");
+                        break;
+                    case EntityTypes.Number:
+                        writer.WriteStringValue("YANDEX.NUMBER");
                         break;
                     default:
                         throw new JsonException($"Can't serialize {value.GetType()} object, unknown type");
