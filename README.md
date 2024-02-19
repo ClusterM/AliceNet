@@ -10,7 +10,7 @@
 В этом методе нужно обработать запрос и вернуть ответ. Теперь нужно создать экземпляр класса, указав конструкторы
 на локальный endpoint и вызвать метод `Start()`.
 
-```csharp
+```C#
 using wtf.cluster.AliceNet;
 using wtf.cluster.AliceNet.Types;
 using wtf.cluster.AliceNet.Types.Request.Entities;

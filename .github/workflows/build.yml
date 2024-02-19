@@ -27,8 +27,6 @@ jobs:
           dotnet-version: 8.x.x
       - name: Build
         run: dotnet build ${{ env.INPUT_DIR }} -c ${{ env.CONFIGURATION }} -o ${{ env.OUTPUT_DIR }}
-      - name: Pack
-        run: dotnet pack ${{ env.INPUT_DIR }} -c ${{ env.CONFIGURATION }} -o ${{ env.OUTPUT_DIR }}
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
