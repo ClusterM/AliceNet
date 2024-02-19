@@ -51,13 +51,21 @@ namespace wtf.cluster.AliceNet
         public void Start()
         {
             Stop();
-            callbackListener ??= new HttpListener();
-            callbackListener.Prefixes.Add(localEndpoint);
-            callbackListener.Start();
-            semaphore = new SemaphoreSlim((int)MaxConcurrentRequests);
-            cancellationTokenSource = new CancellationTokenSource();
-            new Task(async () => await MainLoopAsync(cancellationTokenSource.Token)).Start();
-            logger?.LogInformation("Server started");
+            try
+            {
+                callbackListener = new HttpListener();
+                callbackListener.Prefixes.Add(localEndpoint);
+                callbackListener.Start();
+                semaphore = new SemaphoreSlim((int)MaxConcurrentRequests);
+                cancellationTokenSource = new CancellationTokenSource();
+                new Task(async () => await MainLoopAsync(cancellationTokenSource.Token)).Start();
+                logger?.LogInformation("Server started");
+            }
+            catch
+            {
+                Stop();
+                throw;
+            }
         }
 
         /// <summary>
@@ -113,7 +121,7 @@ namespace wtf.cluster.AliceNet
             }
             catch (Exception ex)
             {
-                logger?.LogError($"Fatal error {ex.GetType()}: {ex.Message}");
+                logger?.LogCritical($"Fatal error {ex.GetType()}: {ex.Message}");
             }
         }
 
