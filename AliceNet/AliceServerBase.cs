@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using Microsoft.Extensions.Logging;
+using System.Net;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -31,14 +32,17 @@ namespace wtf.cluster.AliceNet
         private HttpListener? callbackListener;
         private uint maxConcurrentRequests = 50;
         private string localEndpoint;
+        private ILogger? logger;
 
         /// <summary>
         /// Конструктор объекта AliceServerBase.
         /// </summary>
         /// <param name="localEndpoint">Локальные IP/host и порт, на которых будем принимать подключения.</param>
-        public AliceServerBase(string localEndpoint)
+        /// <param name="logger">Оъект интерфейса ILogger для логирования.</param>
+        public AliceServerBase(string localEndpoint, ILogger? logger)
         {
             this.localEndpoint = localEndpoint;
+            this.logger = logger;
         }
 
         /// <summary>
@@ -53,6 +57,7 @@ namespace wtf.cluster.AliceNet
             semaphore = new SemaphoreSlim((int)MaxConcurrentRequests);
             cancellationTokenSource = new CancellationTokenSource();
             new Task(async () => await MainLoopAsync(cancellationTokenSource.Token)).Start();
+            logger?.LogInformation("Server started");
         }
 
         /// <summary>
@@ -96,31 +101,32 @@ namespace wtf.cluster.AliceNet
                     {
                         // Stopped?
                         if (!callbackListener?.IsListening != true)
-                            return;
+                            break;
                         throw;
                     }
                     catch (OperationCanceledException)
                     {
-                        return;
+                        break;
                     }
                 }
+                logger?.LogInformation("Server stopped");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // TODO: some logs?
+                logger?.LogError($"Fatal error {ex.GetType()}: {ex.Message}");
             }
         }
 
-        // TODO: pass HTTP headers to HandleRequest?
         private async Task HandleRequest(HttpListenerContext context)
         {
-            // TODO: some logging?
             string responseBody = string.Empty;
             var request = context.Request;
             var response = context.Response;
             if (callbackListener == null) return;
             if (request == null) return;
             if (request.Url == null) return;
+
+            var source = $"{request.RemoteEndPoint} {(!String.IsNullOrEmpty(request.UserAgent) ? $"{request.UserAgent}" : String.Empty)}".Trim();
 
             var jsonOptions = new JsonSerializerOptions
             {
@@ -136,14 +142,17 @@ namespace wtf.cluster.AliceNet
             {
                 if (request.HttpMethod != "POST")
                 {
+                    logger?.LogInformation($"{source}: method not allowed: {request.HttpMethod} {request.Url}");
                     response.StatusCode = (int)HttpStatusCode.MethodNotAllowed;
                     return;
                 }
                 var requestText = new StreamReader(request.InputStream).ReadToEnd();
+                logger?.LogDebug($"{source} request: {requestText}");
                 var aliceRequest = JsonSerializer.Deserialize<AliceReqest>(requestText, jsonOptions)!;
 
                 if (aliceRequest.RequestBody is SimpleUtterance u && u.OriginalUtterance == "ping")
                 {
+                    logger?.LogInformation($"{source}: ping? pong!");
                     responseBody = JsonSerializer.Serialize(new AliceResponse
                     {
                         Response = new ResponseBody
@@ -163,6 +172,7 @@ namespace wtf.cluster.AliceNet
             }
             catch (Exception ex)
             {
+                logger?.LogError($"{source}: error {ex.GetType()}: {ex.Message}");
                 if (ex is JsonException)
                 {
                     response.StatusCode = (int)HttpStatusCode.BadRequest;
@@ -184,6 +194,7 @@ namespace wtf.cluster.AliceNet
                     {
                         if (!String.IsNullOrEmpty(responseBody) && context.Response.OutputStream.CanWrite)
                         {
+                            logger?.LogDebug($"{source} has response: {responseBody}");
                             var data = Encoding.UTF8.GetBytes(responseBody);
                             context.Response.ContentLength64 = data.Length;
                             await context.Response.OutputStream.WriteAsync(data).ConfigureAwait(false);
@@ -196,9 +207,9 @@ namespace wtf.cluster.AliceNet
                         catch { }
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    // TODO: some logs?
+                    logger?.LogError($"{source}: error {ex.GetType()}: {ex.Message}");
                 }
             }
         }
