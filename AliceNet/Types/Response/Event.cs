@@ -1,4 +1,4 @@
-﻿namespace wtf.cluster.AliceNet.Types.Response
+namespace wtf.cluster.AliceNet.Types.Response
 {
     /// <summary>
     /// Событие.

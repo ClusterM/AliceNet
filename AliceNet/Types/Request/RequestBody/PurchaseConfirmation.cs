@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 using System.Text.Json;
 
 namespace wtf.cluster.AliceNet.Types.Request.RequestBody

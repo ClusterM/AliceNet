@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using System.Net;
 using System.Text;
 using System.Text.Json;
@@ -121,7 +121,7 @@ namespace wtf.cluster.AliceNet
             }
             catch (Exception ex)
             {
-                logger?.LogCritical($"Fatal error {ex.GetType()}: {ex.Message}");
+                logger?.LogCritical(ex, $"Fatal error {ex.GetType()}: {ex.Message}");
             }
         }
 
@@ -180,7 +180,7 @@ namespace wtf.cluster.AliceNet
             }
             catch (Exception ex)
             {
-                logger?.LogError($"{source}: error {ex.GetType()}: {ex.Message}");
+                logger?.LogError(ex, "{source}: error {ex.GetType()}: {ex.Message}");
                 if (ex is JsonException)
                 {
                     response.StatusCode = (int)HttpStatusCode.BadRequest;
@@ -217,7 +217,7 @@ namespace wtf.cluster.AliceNet
                 }
                 catch (Exception ex)
                 {
-                    logger?.LogError($"{source}: error {ex.GetType()}: {ex.Message}");
+                    logger?.LogError(ex, $"{source}: error {ex.GetType()}: {ex.Message}");
                 }
             }
         }

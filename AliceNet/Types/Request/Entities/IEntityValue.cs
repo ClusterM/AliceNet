@@ -1,4 +1,4 @@
-﻿namespace wtf.cluster.AliceNet.Types.Request.Entities
+namespace wtf.cluster.AliceNet.Types.Request.Entities
 {
     /// <summary>
     /// Значение именованной сущности.

@@ -1,4 +1,4 @@
-﻿using wtf.cluster.AliceNet;
+using wtf.cluster.AliceNet;
 using wtf.cluster.AliceNet.Types;
 using wtf.cluster.AliceNet.Types.Request.Entities;
 using wtf.cluster.AliceNet.Types.Request.RequestBody;
