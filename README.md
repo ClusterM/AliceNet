@@ -57,7 +57,8 @@ namespace AliceExample
                     Response = new ResponseBody
                     {
                         Text = "Отсоси у тракториста!",
-                        Tts = "xxx <[schwa t s schwa  ss ii]> у тракториста! <speaker audio=\"alice-sounds-game-win-1.opus\">"
+                        /* обходим цензуру :) */
+                        Tts = "xxx <[schwa t s schwa ss ii]> у тракториста! <speaker audio=\"alice-sounds-game-win-1.opus\">"
                     }
                 };
             }
