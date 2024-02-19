@@ -80,6 +80,9 @@ namespace AliceExample
 
 Библотека явно ориентирована на русскоязычых разработчиков, поэтому все комментарии и документация на русском языке.
 
+## Скачать из NuGet
+`dotnet add package AliceNet`
+
 ## Поддержать
 
 * [Buy Me A Coffee](https://www.buymeacoffee.com/cluster)
