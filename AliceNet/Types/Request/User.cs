@@ -20,13 +20,13 @@ namespace wtf.cluster.AliceNet.Types.Request
         /// Токен для OAuth-авторизации, который также передается в заголовке Authorization для навыков с настроенной связкой аккаунтов.
         /// </summary>
         [JsonPropertyName("access_token")]
-        public string AccessToken { get; }
+        public string? AccessToken { get; }
 
         /// <summary>
         /// Конструктор для десериализации из JSON.
         /// </summary>
         [JsonConstructor]
-        public User(string userId, string accessToken)
+        public User(string userId, string? accessToken)
         {
             UserId = userId;
             AccessToken = accessToken;
