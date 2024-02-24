@@ -151,6 +151,7 @@ namespace wtf.cluster.AliceNet
                 if (request.HttpMethod != "POST")
                 {
                     logger?.LogInformation($"{source}: method not allowed: {request.HttpMethod} {request.Url}");
+                    responseBody = "Method not allowed";
                     response.StatusCode = (int)HttpStatusCode.MethodNotAllowed;
                     return;
                 }
