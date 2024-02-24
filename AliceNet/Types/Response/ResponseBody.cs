@@ -15,7 +15,7 @@ namespace wtf.cluster.AliceNet.Types.Response
         /// На устройствах, которые поддерживают только голосовое общение с навыком, это будет происходить каждый раз, когда навык присылает карточку в ответе.
         /// </summary>
         [JsonPropertyName("text")]
-        public string? Text { get; set; }
+        public required string Text { get; set; }
 
         /// <summary>
         /// Ответ в формате TTS (text-to-speech).
