@@ -22,6 +22,9 @@ namespace wtf.cluster.AliceNet.Types.Request
 
         /// <summary>
         /// Объект с данными, извлеченными из пользовательского запроса.
+        /// Сущестует несколько зарезервированных недокументированных ключей:
+        /// "YANDEX.WHAT_CAN_YOU_DO" - пользователь спрашивает "что ты умеешь".
+        /// "YANDEX.HELP" - пользователь спрашивает "помощь".
         /// </summary>
         [JsonPropertyName("intents")]
         public Dictionary<string, Intent> Intents { get; }
