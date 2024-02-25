@@ -1,3 +1,4 @@
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using wtf.cluster.AliceNet.Types.Request;
 using wtf.cluster.AliceNet.Types.Request.RequestBody;
@@ -19,7 +20,7 @@ namespace wtf.cluster.AliceNet.Types
         /// Данные, полученные от пользователя.
         /// </summary>
         [JsonPropertyName("request")]
-        public IRequestBody RequestBody { get; }
+        public IRequestBody? RequestBody { get; }
 
         /// <summary>
         /// Данные о сессии. Сессия — это период относительно непрерывного взаимодействия пользователя с навыком.
@@ -44,16 +45,24 @@ namespace wtf.cluster.AliceNet.Types
         public string Version { get; }
 
         /// <summary>
+        /// Присутствует, когда пользователь выполнил привязку аккаунта в навыке, но не на всех устройствах.
+        /// RequestBody таком случае отсутствует. В документации у Яндекса про это ничего нет.
+        /// </summary>
+        [JsonPropertyName("account_linking_complete_event")]
+        public JsonElement? AccountLinkingCompleteEvent { get; }
+
+        /// <summary>
         /// Конструктор для десериализации из JSON.
         /// </summary>
         [JsonConstructor]
-        public AliceReqest(Meta meta, IRequestBody requestBody, Session session, State state, string version)
+        public AliceReqest(Meta meta, IRequestBody? requestBody, Session session, State state, string version, JsonElement? accountLinkingCompleteEvent)
         {
             Meta = meta;
             RequestBody = requestBody;
             Session = session;
             State = state;
             Version = version;
+            AccountLinkingCompleteEvent = accountLinkingCompleteEvent;
         }
 
         /// <summary>
